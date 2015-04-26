@@ -25,6 +25,9 @@ void StringHash::print(bool isAcending){
     }else{
         StringSorter::sortAlphabetically(abcSort, false);
     }
+    for(int j=0;j<abcSort.size();j++){
+        cout<<abcSort[j]<<endl;
+    }
 }
 
 void StringHash::print(){
@@ -74,8 +77,10 @@ void StringHash::push(string title){
         hashTable[i] = hashString;
     }else{
         hashElm *parent; parent = hashTable[i];
-        while(parent->next != NULL){
-            parent = parent->next;
+        if(parent->next != NULL){
+            do{
+                parent = parent->next;
+            }while(parent->next != NULL);
         }
         parent->next = hashString;
         hashString->next = NULL;
@@ -84,6 +89,7 @@ void StringHash::push(string title){
 
 StringHash::StringHash(int i){
     hashTable = new hashElm*[i];
+    hashSize = i;
 }
 
 StringHash::~StringHash(){
