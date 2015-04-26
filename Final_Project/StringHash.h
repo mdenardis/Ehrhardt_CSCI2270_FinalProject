@@ -19,7 +19,7 @@ public:
     void pop(std::string);
     void print();
     void print(bool);
-    void search(std::string);
+    void searchString(std::string);
 private:
     hashElm **hashTable;
     int hashSum(std::string);
