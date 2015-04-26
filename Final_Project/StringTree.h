@@ -5,6 +5,7 @@ struct treeElm{
     std::string title;
     int data;
     bool isRed;
+    treeElm *parent;
     treeElm *left;
     treeElm *right;
 
@@ -18,6 +19,8 @@ struct treeElm{
 
 class StringTree: public StringSorter{
 public:
+    StringTree();
+    ~StringTree();
     void push(std::string, int);
     void pop(std::string);
     void searchString(std::string);
