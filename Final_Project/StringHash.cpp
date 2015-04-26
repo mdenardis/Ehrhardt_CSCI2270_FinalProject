@@ -8,10 +8,12 @@
 
 using namespace std;
 
+
 string StringHash::getString(std::string title){
     int i = StringHash::hashSum(title);
     if(hashTable[i] == NULL){
         cout<<"String not found"<<endl;
+        return title;
     }else{
         hashElm *temp; temp = hashTable[i];
         while(temp != NULL){
@@ -22,6 +24,7 @@ string StringHash::getString(std::string title){
         }
         if(temp == NULL){
             cout<<"String not found"<<endl;
+            return title;
         }
     }
 }
@@ -88,9 +91,9 @@ void StringHash::pop(string title){
     }
 }
 
-void StringHash::push(string title){
+void StringHash::push(string title, int data){
     int i = StringHash::hashSum(title);
-    hashElm *hashString; hashString = new hashElm(title);
+    hashElm *hashString; hashString = new hashElm(title, data);
     if(hashTable[i] == NULL){
         hashTable[i] = hashString;
     }else{
@@ -109,6 +112,8 @@ StringHash::StringHash(int i){
     hashTable = new hashElm*[i];
     hashSize = i;
 }
+
+StringHash::StringHash(){}
 
 StringHash::~StringHash(){
     delete hashTable;
