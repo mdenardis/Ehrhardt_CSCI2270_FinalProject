@@ -16,6 +16,68 @@ StringTree::StringTree(){
     root = nil;
 }
 
+treeElm* StringTree::findMin(treeElm *node){
+    while(node->left != nil){
+        node = node->left;
+    }
+    return node;
+}
+
+void StringTree::rbDelete(treeElm *z){
+    treeElm *y; treeElm *x;
+    y = z;
+    bool y_original_colour = y->isRed;
+    if(z->left == nil){
+        x = z->right;
+        StringTree::rbTransplant(z, z->right);
+        delete z;
+    }
+    else if(z->right == nil){
+        x = z->left;
+        StringTree::rbTransplant(z, z->left);
+        delete z;
+    }
+    else{
+        y = StringTree::findMin(z->right);
+        y_original_colour = y->isRed;
+        x = y->right;
+        if(y->parent == z){
+            x->parent = y;
+        }
+        else{
+            StringTree::rbTransplant(y, y->right);
+            y->right = z->right;
+            y->right->parent = y;
+        }
+        StringTree::rbTransplant(z,y);
+        y->left = z->left;
+        y->left->parent = y;
+        y->isRed = z->isRed;
+        delete z;
+    }
+    if(!y_original_colour){
+        StringTree::rbPopFix(x);
+    }
+}
+
+void StringTree::pop(string title){
+    treeElm *temp; temp = root;
+    while(temp != NULL){
+        if(temp->title == title){
+            StringTree::rbDelete(temp);
+            return;
+        }
+        else if(isABigger(temp->title, title)){
+            temp = temp->left;
+        }else{
+            temp = temp->right;
+        }
+    }
+    if(temp == NULL){
+        cout<<"String not found"<<endl;
+    }
+}
+
 void StringTree::AcendingPrint(treeElm *node){
     if(node->left != nil){
         StringTree::AcendingPrint(node->left);

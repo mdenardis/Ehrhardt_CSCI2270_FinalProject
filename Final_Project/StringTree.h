@@ -26,6 +26,8 @@ public:
     void searchString(std::string);
     void print(bool);
 private:
+    treeElm* findMin(treeElm*);
+    void rbDelete(treeElm*);
     void rbPushFix(treeElm*);
     void rbPopFix(treeElm*);
     void rbTransplant(treeElm*, treeElm*);
