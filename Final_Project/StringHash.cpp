@@ -8,6 +8,24 @@
 
 using namespace std;
 
+string StringHash::getString(std::string title){
+    int i = StringHash::hashSum(title);
+    if(hashTable[i] == NULL){
+        cout<<"String not found"<<endl;
+    }else{
+        hashElm *temp; temp = hashTable[i];
+        while(temp != NULL){
+            if(temp->title == title){
+                return temp->title;
+            }
+            temp = temp->next;
+        }
+        if(temp == NULL){
+            cout<<"String not found"<<endl;
+        }
+    }
+}
+
 void StringHash::print(bool isAcending){
     vector<string> abcSort;
     for(int i=0;i<hashSize;i++){
