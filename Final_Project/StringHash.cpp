@@ -8,6 +8,37 @@
 
 using namespace std;
 
+void StringHash::print(bool isAcending){
+    vector<string> abcSort;
+    for(int i=0;i<hashSize;i++){
+        hashElm *temp; temp = hashTable[i];
+        if(temp != NULL){
+            abcSort.push_back(temp->title);
+            while(temp->next != NULL){
+                temp = temp->next;
+                abcSort.push_back(temp->title);
+            }
+        }
+    }
+    if(isAcending){
+        StringSorter::sortAlphabetically(abcSort, true);
+    }else{
+        StringSorter::sortAlphabetically(abcSort, false);
+    }
+}
+
+void StringHash::print(){
+    for(int i=0;i<hashSize;i++){
+        hashElm *temp; temp = hashTable[i];
+        if(temp != NULL){
+            cout<<temp->title<<endl;
+            while(temp->next != NULL){
+                temp = temp->next;
+                cout<<temp->title<<endl;
+            }
+        }
+    }
+}
 void StringHash::pop(string title){
     int i = StringHash::hashSum(title);
     if(hashTable[i]->title == title){
