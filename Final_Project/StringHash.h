@@ -2,12 +2,12 @@
 #define STRINGHASH_H_INCLUDED
 
 struct hashElm{
-    std::string value;
+    std::string title;
     hashElm *next;
 
     hashElm();
     hashElm(std::string in_string){
-        value = in_string;
+        title = in_string;
     }
 };
 
@@ -19,6 +19,7 @@ public:
     void pop(std::string);
     void print();
     void print(bool);
+    void search(std::string);
 private:
     hashElm **hashTable;
     int hashSum(std::string);
