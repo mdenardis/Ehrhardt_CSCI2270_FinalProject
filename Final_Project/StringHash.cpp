@@ -8,6 +8,34 @@
 
 using namespace std;
 
+void StringHash::pop(string title){
+    int i = StringHash::hashSum(title);
+    if(hashTable[i]->title == title){
+        hashElm *temp; temp = hashTable[i];
+        hashTable[i] = temp->next;
+        delete temp;
+    }else{
+        hashElm *parent; hashElm *child;
+        parent = hashTable[i];
+        if(parent->next != NULL){
+            child = parent->next;
+            while(child != NULL){
+                if(child->title == title){
+                    parent->next = child->next;
+                    delete child;
+                    return;
+                }
+                child = child->next;
+                parent = parent->next;
+            }
+            if(child == NULL){
+                cout<<"String not found"<<endl;
+                return;
+            }
+        }
+    }
+}
+
 void StringHash::push(string title){
     int i = StringHash::hashSum(title);
     hashElm *hashString; hashString = new hashElm(title);
@@ -27,7 +55,9 @@ StringHash::StringHash(int i){
     hashTable = new hashElm*[i];
 }
 
-StringHash::~StringHash(){}
+StringHash::~StringHash(){
+    delete hashTable;
+}
 
 int StringHash::hashSum(string title){
     int sum = 0;
