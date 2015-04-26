@@ -23,37 +23,37 @@ treeElm* StringTree::findMin(treeElm *node){
     return node;
 }
 
-void StringTree::rbDelete(treeElm *z){
+void StringTree::rbDelete(treeElm *node){
     treeElm *y; treeElm *x;
-    y = z;
+    y = node;
     bool y_original_colour = y->isRed;
-    if(z->left == nil){
-        x = z->right;
-        StringTree::rbTransplant(z, z->right);
-        delete z;
+    if(node->left == nil){
+        x = node->right;
+        StringTree::rbTransplant(node, node->right);
+        delete node;
     }
-    else if(z->right == nil){
-        x = z->left;
-        StringTree::rbTransplant(z, z->left);
-        delete z;
+    else if(node->right == nil){
+        x = node->left;
+        StringTree::rbTransplant(node, node->left);
+        delete node;
     }
     else{
-        y = StringTree::findMin(z->right);
+        y = StringTree::findMin(node->right);
         y_original_colour = y->isRed;
         x = y->right;
-        if(y->parent == z){
+        if(y->parent == node){
             x->parent = y;
         }
         else{
             StringTree::rbTransplant(y, y->right);
-            y->right = z->right;
+            y->right = node->right;
             y->right->parent = y;
         }
-        StringTree::rbTransplant(z,y);
-        y->left = z->left;
+        StringTree::rbTransplant(node,y);
+        y->left = node->left;
         y->left->parent = y;
-        y->isRed = z->isRed;
-        delete z;
+        y->isRed = node->isRed;
+        delete node;
     }
     if(!y_original_colour){
         StringTree::rbPopFix(x);
