@@ -24,7 +24,6 @@ public:
     void push(std::string, int);
     void pop(std::string);
     void searchString(std::string);
-    void print();
     void print(bool);
 private:
     void rbPushFix(treeElm*);
@@ -32,6 +31,8 @@ private:
     void rbTransplant(treeElm*, treeElm*);
     void leftRotate(treeElm*);
     void rightRotate(treeElm*);
+    void AcendingPrint(treeElm*);
+    void DecendingPrint(treeElm*);
     treeElm *root;
     treeElm *nil;
 

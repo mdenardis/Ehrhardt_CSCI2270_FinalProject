@@ -7,8 +7,78 @@
 
 using namespace std;
 
+StringTree::~StringTree(){}
+
+StringTree::StringTree(){
+    nil = new treeElm();
+    nil->right = nil; nil->left = nil; nil->parent = nil;
+    nil->isRed = false;
+    root = nil;
+}
+
+void StringTree::AcendingPrint(treeElm *node){
+    if(node->left != nil){
+        StringTree::AcendingPrint(node->left);
+    }
+    cout<<node->title<<endl;
+    if(node->right != nil){
+        StringTree::AcendingPrint(node->right);
+    }
+}
+
+void StringTree::DecendingPrint(treeElm *node){
+    if(node->right != nil){
+        StringTree::DecendingPrint(node->right);
+    }
+    cout<<node->title<<endl;
+    if(node->left != nil){
+        StringTree::DecendingPrint(node->left);
+    }
+}
+
+void StringTree::print(bool isAcending){
+    if(isAcending){
+        StringTree::AcendingPrint(root);
+    }else{
+        StringTree::DecendingPrint(root);
+    }
+}
+
+void StringTree::push(std::string title, int data){
+    treeElm *newNode; newNode = new treeElm(title, data);
+    newNode->right = nil; newNode->left = nil; newNode->isRed = true; newNode->parent == nil;
+    treeElm *child; treeElm *parent;
+    child = root; parent = nil;
+    while(child != nil){
+        if(StringSorter::isABigger(child->title,newNode->title)){
+            parent = child;
+            child = parent->left;
+        }else{
+            parent = child;
+            child = parent->right;
+        }
+    }
+    if(child == nil){
+        if(parent == nil){
+            newNode->parent = nil;
+            root = newNode;
+            StringTree::rbPushFix(newNode);
+        }else{
+            if(StringSorter::isABigger(parent->title,newNode->title)){
+                parent->left = newNode;
+            }else{
+                parent->right = newNode;
+            }
+            newNode->parent = parent;
+            StringTree::rbPushFix(newNode);
+        }
+    }
+}
+
 
 void StringTree::rbPushFix(treeElm *node){
+    node->right = nil; node->left = nil;
+    node->isRed = true;
     while((node != root) && (node->parent->isRed == true)){
            if(node->parent == node->parent->parent->left){
                //cout<<"left Child"<<endl;
@@ -33,18 +103,14 @@ void StringTree::rbPushFix(treeElm *node){
                 //cout<<"Right Child"<<endl;
                 treeElm *uncle = node->parent->parent->left;
                 if(uncle->isRed){
-                    //cout<<"red"<<endl;
                     node->parent->isRed = false;
                     uncle->isRed = false;
                     node->parent->parent->isRed = true;
                     node = node->parent->parent;
                 }
                 else{
-                    //cout<<"black"<<endl;
                     if(node == node->parent->left){
-                        //cout<<"yes?"<<endl;
                         node = node->parent;
-                        //cout<<"please?"<<endl;
                         StringTree::rightRotate(node);
                     }
                     node->parent->isRed = false;
@@ -170,6 +236,3 @@ void StringTree::leftRotate(treeElm *x){
     x->parent = y;
 }
 
-StringTree::~StringTree(){}
-
-StringTree::StringTree(){}
